@@ -1,0 +1,321 @@
+
+<!-- Following code needs to be copied in mainpage.h!! -->
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>IR decoder</title>
+    <br>
+    <h1>IR codes decoder</h1>
+    <br>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      .row {
+        margin-left: -5px;
+        margin-right: -5px;
+      }
+
+      .column {
+        float: left;
+        width: 35%;
+        padding: 5px;
+      }
+
+      .row::after {
+        content: "";
+        clear: both;
+        display: table;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        border: 1px solid #ddd;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 10px;
+      }
+
+      textarea {
+        width: 300px;
+        height: 150px;
+      }
+
+      body {
+        background-color: #F5F5DC;
+      }
+
+      textarea {
+        width: 40%;
+        height: 150px;
+      }
+
+      select {
+        width: 10%;
+      }
+
+      input {
+        width: 10%;
+      }
+    </style>
+  </head>
+  <body>
+    <label for="protocol">Protocol:</label>
+    <select name="protocol" id="protocol">
+      <option value="Apple">Apple</option>
+      <option value="Denon">Denon</option>
+      <option value="JVC">JVC</option>
+      <option value="LG">LG</option>
+      <option value="LG2">LG2</option>
+      <option value="NEC" selected>NEC</option>
+      <option value="NEC2">NEC2</option>
+      <option value="Onkyo">Onkyo</option>
+      <option value="Panasonic">Panasonic</option>
+      <option value="Kaseikyo">Kaseikyo</option>
+      <option value="Kaseikyo_Denon">Kaseikyo_Denon</option>
+      <option value="Kaseikyo_Sharp">Kaseikyo_Sharp</option>
+      <option value="Kaseikyo_JVC">Kaseikyo_JVC</option>
+      <option value="Kaseikyo_Mitsubishi">Kaseikyo_Mitsubishi</option>
+      <option value="RC5">RC5</option>
+      <option value="RC6">RC6</option>
+      <option value="Samsung">Samsung</option>
+      <option value="SamsungLG">SamsungLG</option>
+      <option value="Sharp">Sharp</option>
+      <option value="Sony">Sony</option>
+      <option value="BoseWave">BoseWave</option>
+      <option value="Lego">Lego</option>
+      <option value="MagiQuest">MagiQuest</option>
+      <option value="Whynter">Whynter</option>
+    </select>
+    <label for="address">Address</label>
+    <input type="text" placeholder="0x000" id="address">
+    <label for="command">Command</label>
+    <input type="text" placeholder="0x000" id="command">
+    <label for="repeats">Repeats</label>
+    <input type="text" value="0" id="repeats" style="width:25px">
+    <br>
+    <br>
+    <input type="button" id="btn1" value="Send code" onclick="sendData()">
+    <p id="warning" style="color:red"></p>
+    <div class="row">
+      <div class="column">
+        <table>
+          <tr>
+            <th>Tx Values</th>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal1"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal2"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal3"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal4"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal5"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal6"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal7"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal8"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal9"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="TxVal10"></span>
+            </td>
+          </tr>                    
+        </table>
+      </div>
+      <div class="column">
+        <table>
+          <tr>
+            <th>Rx Values</th>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal1"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal2"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal3"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal4"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal5"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal6"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal7"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal8"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal9"></span>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <span id="RxVal10"></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <p>Save values here for future reference:</p>
+    <p>
+      <textarea id="txtData" placeholder="0xAABBCCDD - Power"></textarea>
+    </p>
+    <button type="button" id="btnSave" onclick="save()">SAVE</button>
+    <script>
+      var rVal = new Array(10);
+      var sVal = new Array(10);
+      rVal.fill('');
+      sVal.fill('');
+
+      function sendData() {
+        var prot = document.getElementById("protocol").value;
+        var addr = document.getElementById("address").value;
+        var cmd = document.getElementById("command").value;
+        var rpt = document.getElementById("repeats").value;
+        var warn = document.getElementById("warning");
+        var regex = /^0x[0-9A-Fa-f]+$/;
+        var xhttp = new XMLHttpRequest();
+        if ((addr.match(regex)) && (cmd.match(regex))) {
+          sVal.unshift("Protocol=" + prot + " Address:" + addr + " Command:" + cmd + " Repeats:" + rpt);
+          document.getElementById("TxVal1").innerHTML = sVal[0];
+          document.getElementById("TxVal2").innerHTML = sVal[1];
+          document.getElementById("TxVal3").innerHTML = sVal[2];
+          document.getElementById("TxVal4").innerHTML = sVal[3];
+          document.getElementById("TxVal5").innerHTML = sVal[4];
+          document.getElementById("TxVal6").innerHTML = sVal[5];
+          document.getElementById("TxVal7").innerHTML = sVal[6];
+          document.getElementById("TxVal8").innerHTML = sVal[7];
+          document.getElementById("TxVal9").innerHTML = sVal[8];
+          document.getElementById("TxVal10").innerHTML = sVal[9];
+          warn.innerHTML = ""
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              input = this.responseText;
+            }
+          };
+          xhttp.open("GET", "sendVal?Prot=" + prot + "&Addr=" + addr + "&Cmd=" + cmd + "&Rpt=" + rpt, true);
+          xhttp.send();
+        } else if ((addr == "a hex value") || (cmd == "a hex value")) {
+          alert("Don't do that :)");
+        } else {
+          warn.innerHTML = "Please enter a hex value.";
+        }
+      }
+      setInterval(function() {
+        getData();
+      }, 1000);
+
+      function getData() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            if (this.responseText.indexOf('Protocol= ') == -1) {
+              rVal.unshift(this.responseText);
+              document.getElementById("RxVal1").innerHTML = rVal[0];
+              document.getElementById("RxVal2").innerHTML = rVal[1];
+              document.getElementById("RxVal3").innerHTML = rVal[2];
+              document.getElementById("RxVal4").innerHTML = rVal[3];
+              document.getElementById("RxVal5").innerHTML = rVal[4];
+              document.getElementById("RxVal6").innerHTML = rVal[5];
+              document.getElementById("RxVal7").innerHTML = rVal[6];
+              document.getElementById("RxVal8").innerHTML = rVal[7];
+              document.getElementById("RxVal9").innerHTML = rVal[8];
+              document.getElementById("RxVal10").innerHTML = rVal[9];
+            }
+          }
+        };
+        xhttp.open("GET", "readVal", true);
+        xhttp.send();
+      }
+      
+      [document.getElementById("address"), document.getElementById("command"), document.getElementById("repeats")].forEach(item => {
+        item.addEventListener("keypress", function(event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            document.getElementById("btn1").click();
+          }
+        })
+      });
+
+      function save() {
+        var data = document.getElementById("txtData").value;
+        var c = document.createElement("a");
+        c.download = "user-text.txt";
+        var t = new Blob([data], {
+          type: "text/plain"
+        });
+        c.href = window.URL.createObjectURL(t);
+        c.click();
+      }
+    </script>
+  </body>
+</html>
